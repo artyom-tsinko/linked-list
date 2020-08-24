@@ -42,6 +42,15 @@ namespace SimCorp.Collections.Tests
             Assert.Pass();
         }
 
+        [Test]
+        public static void StringEqualsTest()
+        {
+            Console.WriteLine(string.Equals(null, null, StringComparison.Ordinal));
+            Console.WriteLine(string.Equals(null, "", StringComparison.Ordinal));
+
+            Assert.Pass();
+        }
+
     }
 
 }

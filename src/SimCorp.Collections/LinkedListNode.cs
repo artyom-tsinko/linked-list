@@ -7,48 +7,73 @@ namespace SimCorp.Collections
         where TNode : LinkedListNode<TNode>, new()
     {
 
-        private LinkedList<TNode> _container = default;
+        private LinkedList<TNode>? _container = default;
+        private TNode? _prev = default;
+        private TNode? _next = default;
 
-        // TODO - is it necessary? double-check
+        public string? Value { get; private set; }
+
+        // Prevents uncontrolled creation of other node types
         internal LinkedListNode() { }
 
-        public string Value { get; private set; }
-        internal TNode PrevInternal { get; set; }
-        internal TNode NextInternal { get; set; }
-
-
-        /// <summary>
-        /// Returns new Root
-        /// </summary>
-        internal void AttachTo(LinkedList<TNode> container, string value)
+        internal TNode PreviousInternal 
         {
-            if (this._container != null)
-            {
-                throw new InvalidOperationException("This node is already attached to another list");
-            }
-
-            this._container = container;
-            this.Value = value;
+            get => this._prev is null ? throw new InvalidOperationException() : this._prev;
         }
 
-        /// <summary>
-        /// Returns new Root
-        /// </summary>
-        internal void RemoveFrom(LinkedList<TNode> container)
+        internal TNode NextInternal
         {
-            if (this._container is null ||
-                !object.ReferenceEquals(this._container, container))
-            {
-                throw new InvalidOperationException("This node was not attached to this container");
-            }
+            get => this._next is null ? throw new InvalidOperationException() : this._next;
+        }
 
-            this._container = null;
+        internal static void AttachRoot(LinkedList<TNode> container, TNode root, string? value)
+        {
+            if (container is null) { throw new ArgumentNullException(); }
+
+            root._next = root;
+            root._prev = root;
+            root._container = container;
+            root.Value = value;
+        }
+
+        internal static void AttachNode(TNode left, TNode target, string? value)
+        {
+            if (left._container is null) { throw new InvalidOperationException(); }
+
+            var right = left.NextInternal;
+
+            left._next = target;
+            right._prev = target;
+
+            target._next = right;
+            target._prev = left;
+            target._container = left._container;
+
+            target.Value = value;
+        }
+
+        internal static void RemoveNode(LinkedList<TNode> container, TNode target)
+        {
+            if (!object.ReferenceEquals(container, target._container)) { throw new InvalidOperationException(); }
+            if (target._container is null) { throw new InvalidOperationException(); }
+
+            var left = target.PreviousInternal;
+            var right = target.NextInternal;
+
+            left._next = right;
+            right._prev = left;
+
+            target._next = null;
+            target._prev = null;
+            target._container = null;
+        }
+
+        protected bool IsRoot() 
+        {
+            if (this._container is null) { throw new InvalidOperationException(); }
+            return Object.ReferenceEquals(this._container.Root, this);
         }
 
     }
-
-    
-
-    
 
 }

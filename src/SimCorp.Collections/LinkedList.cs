@@ -3,68 +3,60 @@ using System.Collections.Generic;
 
 namespace SimCorp.Collections
 {
+
     public sealed class LinkedList<TNode>
         where TNode : LinkedListNode<TNode>, new()
     {
 
-        internal TNode Root { get; private set; } = default;
+        internal TNode? Root { get; private set; } = default;
 
-        public TNode Add(string value)
+
+        public TNode Add(string? value)
         {
             var node = new TNode();
-
+            
             // the list was empty, adding new root
             if (this.Root is null)
             {
-                node.NextInternal = node;
-                node.PrevInternal = node;
-
+                LinkedListNode<TNode>.AttachRoot(this, node, value);
                 this.Root = node;
             }
             else
             {
-                node.NextInternal = this.Root;
-                node.PrevInternal = this.Root.PrevInternal;
-                this.Root.PrevInternal.NextInternal = node;
-                this.Root.PrevInternal = node;
+                // attach node to the end of the list
+                LinkedListNode<TNode>.AttachNode(this.Root.PreviousInternal, node, value);
             }
-
-            node.AttachTo(this, value);
 
             return node;
         }
+
 
         public void Remove(TNode node)
         {
             // TODO - removed node is not in the list
 
-            var prev = node.PrevInternal;
             var next = node.NextInternal;
 
-            prev.NextInternal = next;
-            next.PrevInternal = prev;
-
-            // if node was a root node - next node should become a new root
-            if (object.ReferenceEquals(node, this.Root))
+            // update root node, if necessary
+            // if removed node is a root node - next node should become a new root
+            if (object.ReferenceEquals(node, this.Root)) 
             {
-                this.Root = next;
+                // If next node is still a root - there was a single root element...
+                this.Root = !object.ReferenceEquals(this.Root, next)
+                    ? next
+                    // ... and new root should be null.
+                    : default;
             }
 
-            // if node is still the same root (means there was a single root node in the list)
-            // the new root should be null
-            if (object.ReferenceEquals(node, this.Root))
-            {
-                this.Root = null;
-            }
-
-            node.RemoveFrom(this);
-
+            // cleanup node refrences and remove node from list
+            LinkedListNode<TNode>.RemoveNode(this, node);
         }
 
-        public string[] GetValues()
+
+        public string?[] GetValues()
         {
             // TODO - enhance performance
-            var items = new List<string>();
+            var items = new List<string?>();
 
             foreach (var nodeValue in LinkedList<TNode>.Select(this.Root, n => n.Value))
             {
@@ -75,12 +67,13 @@ namespace SimCorp.Collections
         }
 
 
-        public TNode FindNode(string nodeValue, StringComparison comparison = StringComparison.Ordinal)
+        public TNode? Find(string nodeValue, StringComparison comparison = StringComparison.Ordinal)
         {
-            return this.FindNode(v => string.Equals(v, nodeValue, comparison));
+            return this.Find(v => string.Equals(v, nodeValue, comparison));
         }
 
-        public TNode FindNode(Func<string, bool> predicate)
+
+        public TNode? Find(Func<string?, bool> predicate)
         {
             foreach (var node in LinkedList<TNode>.Select(this.Root, n => n))
             {
@@ -91,7 +84,7 @@ namespace SimCorp.Collections
         }
 
 
-        private static IEnumerable<T> Select<T>(TNode root, Func<TNode, T> selector)
+        private static IEnumerable<T> Select<T>(TNode? root, Func<TNode, T> selector)
         {
             if (root is null) { yield break; };
 
