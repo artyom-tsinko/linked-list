@@ -3,7 +3,7 @@
 namespace SimCorp.Collections
 {
 
-    public abstract class LinkedListNode<TNode>
+    public abstract class LinkedListNode<TNode> : IListNode
         where TNode : LinkedListNode<TNode>, new()
     {
 
@@ -11,20 +11,25 @@ namespace SimCorp.Collections
         private TNode? _prev = default;
         private TNode? _next = default;
 
+
         public string? Value { get; private set; }
+
 
         // Prevents uncontrolled creation of other node types
         internal LinkedListNode() { }
+
 
         internal TNode PreviousInternal 
         {
             get => this._prev is null ? throw new InvalidOperationException() : this._prev;
         }
 
+
         internal TNode NextInternal
         {
             get => this._next is null ? throw new InvalidOperationException() : this._next;
         }
+
 
         internal static void AttachRoot(LinkedList<TNode> container, TNode root, string? value)
         {
@@ -35,6 +40,7 @@ namespace SimCorp.Collections
             root._container = container;
             root.Value = value;
         }
+
 
         internal static void AttachNode(TNode left, TNode target, string? value)
         {
@@ -52,6 +58,7 @@ namespace SimCorp.Collections
             target.Value = value;
         }
 
+
         internal static void RemoveNode(LinkedList<TNode> container, TNode target)
         {
             if (!object.ReferenceEquals(container, target._container)) { throw new InvalidOperationException(); }
@@ -68,9 +75,11 @@ namespace SimCorp.Collections
             target._container = null;
         }
 
+
         protected bool IsRoot() 
         {
             if (this._container is null) { throw new InvalidOperationException(); }
+
             return Object.ReferenceEquals(this._container.Root, this);
         }
 

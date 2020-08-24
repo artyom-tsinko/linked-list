@@ -1,11 +1,11 @@
 ﻿namespace SimCorp.Collections
 {
 
-    public sealed class DoublyLinkedListNode : LinkedListNode<DoublyLinkedListNode>
+    public sealed class DoublyLinkedListNode : LinkedListNode<DoublyLinkedListNode>, IDoublyLinkedListNode
     {
-
-        public DoublyLinkedListNode? Next => !this.NextInternal.IsRoot() ? this.NextInternal : default;
-        public DoublyLinkedListNode? Previous => !this.IsRoot() ? this.PreviousInternal : default;
+        
+        public IDoublyLinkedListNode? Previous => !this.IsRoot() ? this.PreviousInternal : default;
+        public IDoublyLinkedListNode? Next => !this.NextInternal.IsRoot() ? this.NextInternal : default;
 
     }
 

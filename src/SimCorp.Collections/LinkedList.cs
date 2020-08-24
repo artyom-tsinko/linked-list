@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SimCorp.Collections
 {
 
-    public sealed class LinkedList<TNode>
+    public sealed class LinkedList<TNode> : ILinkedList<TNode>
         where TNode : LinkedListNode<TNode>, new()
     {
 
@@ -53,7 +53,7 @@ namespace SimCorp.Collections
         }
 
 
-        public string?[] GetValues()
+        public string?[] ToArray()
         {
             // TODO - enhance performance
             var items = new List<string?>();
@@ -67,17 +67,11 @@ namespace SimCorp.Collections
         }
 
 
-        public TNode? Find(string nodeValue, StringComparison comparison = StringComparison.Ordinal)
-        {
-            return this.Find(v => string.Equals(v, nodeValue, comparison));
-        }
-
-
-        public TNode? Find(Func<string?, bool> predicate)
+        public TNode? Find(string search)
         {
             foreach (var node in LinkedList<TNode>.Select(this.Root, n => n))
             {
-                if (predicate(node.Value)) { return node; }
+                if (string.Equals(search, node.Value, StringComparison.Ordinal)) { return node; }
             }
 
             return null;
