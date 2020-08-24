@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimCorp.Collections.Tests", "test\SimCorp.Collections.Tests\SimCorp.Collections.Tests.csproj", "{16590458-60A9-4B42-931E-1C5CEDB94FBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{54D6AFED-ABEF-466A-B32B-47D08797BE6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimCorp.Collections", "src\SimCorp.Collections\SimCorp.Collections.csproj", "{83E0A050-724B-4644-9857-38D21ABF9727}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16590458-60A9-4B42-931E-1C5CEDB94FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16590458-60A9-4B42-931E-1C5CEDB94FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16590458-60A9-4B42-931E-1C5CEDB94FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16590458-60A9-4B42-931E-1C5CEDB94FBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83E0A050-724B-4644-9857-38D21ABF9727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E0A050-724B-4644-9857-38D21ABF9727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E0A050-724B-4644-9857-38D21ABF9727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E0A050-724B-4644-9857-38D21ABF9727}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16590458-60A9-4B42-931E-1C5CEDB94FBA} = {54D6AFED-ABEF-466A-B32B-47D08797BE6C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C9E41A2-C3E5-42DC-A58E-F2E56398DCE9}
+	EndGlobalSection
+EndGlobal
