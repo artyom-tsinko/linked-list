@@ -6,7 +6,7 @@ namespace SimCorp.Collections.ClassicLinkedList
     /// <summary>
     /// Represents uni-directional (forward-only) linked list.
     /// </summary>
-    public class SinglyLinkedList: LinkedList<ISinglyLinkedListNode>, ILinkedList<ILinkedListNode>
+    public sealed class SinglyLinkedList: LinkedList<ISinglyLinkedListNode>, ILinkedList<ILinkedListNode>
     {
         
         /// <inheritdoc/>
