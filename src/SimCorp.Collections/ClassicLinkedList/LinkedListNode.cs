@@ -3,7 +3,7 @@
 namespace SimCorp.Collections.ClassicLinkedList
 {
 
-    public abstract class LinkedListNode : ILinkedListNode
+    internal abstract class LinkedListNode : ILinkedListNode
     {
 
         private object? _container;
@@ -11,6 +11,9 @@ namespace SimCorp.Collections.ClassicLinkedList
 
         protected LinkedListNode(string value, object container)
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
+            if (container is null) { throw new ArgumentNullException(nameof(container)); }
+
             this._value = value;
             this._container = container;
         }
@@ -35,6 +38,7 @@ namespace SimCorp.Collections.ClassicLinkedList
 
         bool ILinkedListNode.BelongsTo(object targetContainer)
         {
+            if (targetContainer is null) { throw new ArgumentNullException(nameof(targetContainer)); }
             this.ThrowIfInvalidated();
 
             return object.ReferenceEquals(this._container, targetContainer);

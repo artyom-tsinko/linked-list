@@ -9,12 +9,16 @@ namespace SimCorp.Collections.ClassicLinkedList
         where TNode : class, ILinkedListNode
     {
 
-        // TODO - turn into properties
-        protected TNode? _head;
-        protected TNode? _tail;
+        private TNode? _head = default;
+        private TNode? _tail = default;
 
+        /// <summary>
+        /// The cost is O(1)
+        /// </summary>
         public TNode Add(string value)
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
+
             var node = this.CreateNode(value);
 
             if (this._head is null && this._tail is null)
@@ -32,21 +36,40 @@ namespace SimCorp.Collections.ClassicLinkedList
         }
 
 
+        /// <summary>
+        /// The cost depends on <see cref="GetPrevious"/> implementation, varies from O(1) to O(N)
+        /// </summary>
         public void Remove(TNode target)
         {
-            if (!target.BelongsTo(this)) { throw new InvalidOperationException(); }
+            if (target is null) { throw new ArgumentNullException(nameof(target)); }
+            if (!target.BelongsTo(this)) { throw new InvalidOperationException("Node does not belong to this object"); }
 
             var prev = this.GetPrevious(target);
+            var next = this.GetNext(target);
+            
+            this.LinkNodes(prev, next);
 
-            if (prev is null) { throw new InvalidOperationException(); }
+            // target was current head
+            if (prev is null)
+            {
+                this._head = next;
+            }
 
-            this.LinkNodes(prev, this.GetNext(target));
+            // target was current tail
+            if (next is null) 
+            {
+                this._tail = prev;
+            }
+
             target.Invalidate();
         }
 
-
+        /// <summary>
+        /// The cost is O(N)
+        /// </summary>
         public TNode? Find(string value) 
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
             return this.Find(node => string.Equals(value, node.Value, StringComparison.Ordinal));
         }
 
@@ -72,6 +95,8 @@ namespace SimCorp.Collections.ClassicLinkedList
 
         protected TNode? Find(Func<TNode, bool> predicate) 
         {
+            if (predicate is null) { throw new ArgumentNullException(nameof(predicate)); }
+
             foreach (var node in this.Select(n => n))
             {
                 if (predicate(node))

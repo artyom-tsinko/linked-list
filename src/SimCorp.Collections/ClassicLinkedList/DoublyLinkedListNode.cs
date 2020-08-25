@@ -1,7 +1,7 @@
 ﻿namespace SimCorp.Collections.ClassicLinkedList
 {
 
-    public sealed class DoublyLinkedListNode : LinkedListNode, IDoublyLinkedListNode
+    internal sealed class DoublyLinkedListNode : LinkedListNode, IDoublyLinkedListNode
     {
 
         internal DoublyLinkedListNode(string value, object container) : base(value, container) { }

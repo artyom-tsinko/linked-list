@@ -1,7 +1,7 @@
 ﻿namespace SimCorp.Collections.ClassicLinkedList
 {
 
-    public class SinglyLinkedListNode : LinkedListNode, ISinglyLinkedListNode
+    internal sealed class SinglyLinkedListNode : LinkedListNode, ISinglyLinkedListNode
     {
 
         private ISinglyLinkedListNode? _next;
