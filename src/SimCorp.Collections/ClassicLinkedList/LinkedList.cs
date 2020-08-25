@@ -4,6 +4,11 @@ using System.Collections.Generic;
 namespace SimCorp.Collections.ClassicLinkedList
 {
 
+    /// <summary>
+    /// Base implemnetation of the <see cref="ILinkedList{TNode}"/>.
+    /// Provides basic functionality to build linked lists
+    /// with various navigation schemas based on <typeparamref name="TNode"/>.
+    /// </summary>
     public abstract class LinkedList<TNode> : ILinkedList<TNode>
         where TNode : class, ILinkedListNode
     {
@@ -12,8 +17,11 @@ namespace SimCorp.Collections.ClassicLinkedList
         private TNode? _tail = default;
 
         /// <summary>
-        /// The cost is O(1)
+        /// Adds node with specified <paramref name="value"/> to the end of the list
         /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1).
+        /// </remarks>
         public TNode Add(string value)
         {
             if (value is null) { throw new ArgumentNullException(nameof(value)); }
@@ -35,8 +43,13 @@ namespace SimCorp.Collections.ClassicLinkedList
         }
 
         /// <summary>
-        /// The cost depends on <see cref="GetPrevious"/> implementation, varies from O(1) to O(N)
+        /// Removes <paramref name="target"/> node from list.
+        /// Throws <see cref="InvalidOperationException"/> if node does not belong to this list.
         /// </summary>
+        /// <remarks>
+        /// Operation cost depends on <see cref="GetPrevious"/> implementation, 
+        /// varies from O(1) to O(N).
+        /// </remarks>
         public void Remove(TNode target)
         {
             if (target is null) { throw new ArgumentNullException(nameof(target)); }
@@ -63,14 +76,24 @@ namespace SimCorp.Collections.ClassicLinkedList
         }
 
         /// <summary>
-        /// The cost is O(N)
+        /// Looks for a <see cref="TNode"/> in the list which value equals <paramref name="search"/>.
         /// </summary>
-        public TNode? Find(string value) 
+        /// <remarks>
+        /// Operation cost is O(N).
+        /// </remarks>
+        /// <returns>
+        /// <see cref="TNode"/> if found, null otherwise.
+        /// </returns>
+        public TNode? Find(string search) 
         {
-            if (value is null) { throw new ArgumentNullException(nameof(value)); }
-            return this.Find(node => string.Equals(value, node.Value, StringComparison.Ordinal));
+            if (search is null) { throw new ArgumentNullException(nameof(search)); }
+            return this.Find(node => string.Equals(search, node.Value, StringComparison.Ordinal));
         }
 
+        /// <summary>
+        /// Traverses given list from head to tail and 
+        /// returns its node values as array.
+        /// </summary>
         public string[] ToArray()
         {
             var items = new List<string>();
@@ -83,11 +106,50 @@ namespace SimCorp.Collections.ClassicLinkedList
             return items.ToArray();
         }
 
+        /// <summary>
+        /// Creates <typeparamref name="TNode"/> instance, 
+        /// acts as a factory method.
+        /// </summary>
         protected abstract TNode CreateNode(string value);
+
+        /// <summary>
+        /// Links <paramref name="prev"/> and <paramref name="next"/> nodes
+        /// based on node navigation scheme.
+        /// If any of nodes is null, corresponded property is set to null.
+        /// </summary>
+        /// <remarks>
+        /// For uni-directional navigation scheme <paramref name="next"/>
+        /// is set as next of <paramref name="prev"/>.
+        /// For bi-directional navigation, corresponded next and prev
+        /// properties of both nodes should be set.
+        /// </remarks>
         protected abstract void LinkNodes(TNode? prev, TNode? next);
+
+        /// <summary>
+        /// Returns node next to <paramref name="current"/>.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1) to O(N), depending on implementation.
+        /// </remarks>
         protected abstract TNode? GetNext(TNode current);
+
+        /// <summary>
+        /// Returns node previous to <paramref name="current"/>.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1) to O(N), depending on implementation.
+        /// </remarks>
         protected abstract TNode? GetPrevious(TNode current);
 
+        /// <summary>
+        /// Looks for a <see cref="TNode"/> in the list based on <paramref name="predicate"/> condition.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(N).
+        /// </remarks>
+        /// <returns>
+        /// <see cref="TNode"/> if found, null otherwise.
+        /// </returns>
         protected TNode? Find(Func<TNode, bool> predicate) 
         {
             if (predicate is null) { throw new ArgumentNullException(nameof(predicate)); }

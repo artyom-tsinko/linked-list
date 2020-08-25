@@ -95,7 +95,7 @@ namespace SimCorp.Collections.GenericLinkedList
         }
 
         /// <summary>
-        /// Traverses give list from head to tail and 
+        /// Traverses given list from head to tail and 
         /// returns its node values as array.
         /// </summary>
         public string[] ToArray()

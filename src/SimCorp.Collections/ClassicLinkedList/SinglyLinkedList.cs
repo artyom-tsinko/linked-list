@@ -8,17 +8,20 @@ namespace SimCorp.Collections.ClassicLinkedList
     /// </summary>
     public class SinglyLinkedList: LinkedList<ISinglyLinkedListNode>, ILinkedList<ILinkedListNode>
     {
-
+        
+        /// <inheritdoc/>
         ILinkedListNode ILinkedList<ILinkedListNode>.Add(string value)
         {
             return this.Add(value);
         }
 
+        /// <inheritdoc/>
         ILinkedListNode? ILinkedList<ILinkedListNode>.Find(string value)
         {
             return this.Find(value);
         }
 
+        /// <inheritdoc/>
         public void Remove(ILinkedListNode node)
         {
             var castedNode = node as ISinglyLinkedListNode;
@@ -27,7 +30,7 @@ namespace SimCorp.Collections.ClassicLinkedList
             base.Remove(castedNode);
         }
 
-
+        /// <inheritdoc/>
         protected override ISinglyLinkedListNode CreateNode(string value)
         {
             if (value is null) { throw new ArgumentNullException(nameof(value)); }
@@ -36,8 +39,11 @@ namespace SimCorp.Collections.ClassicLinkedList
         }
 
         /// <summary>
-        /// The cost is O(1)
+        /// <inheritdoc/>
         /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1).
+        /// </remarks>
         protected override ISinglyLinkedListNode? GetNext(ISinglyLinkedListNode current)
         {
             if (current is null) { throw new ArgumentNullException(nameof(current)); }
@@ -46,8 +52,11 @@ namespace SimCorp.Collections.ClassicLinkedList
         }
 
         /// <summary>
-        /// The cost is O(N)
+        /// <inheritdoc/>
         /// </summary>
+        /// <remarks>
+        /// Operation cost is O(N).
+        /// </remarks>
         protected override ISinglyLinkedListNode? GetPrevious(ISinglyLinkedListNode current)
         {
             if (current is null) { throw new ArgumentNullException(nameof(current)); }
@@ -55,6 +64,7 @@ namespace SimCorp.Collections.ClassicLinkedList
             return this.Find(node => object.ReferenceEquals(node.Next, current));
         }
 
+        /// <inheritdoc/>
         protected override void LinkNodes(ISinglyLinkedListNode? prev, ISinglyLinkedListNode? next)
         {
             if (prev != null) { prev.Next = next; }

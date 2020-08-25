@@ -10,14 +10,19 @@
 
         private ISinglyLinkedListNode? _next;
 
+        /// <inheritdoc/>
         ISinglyLinkedListNode? ISinglyLinkedListNode.Next
         {
             get { this.ThrowIfInvalidated(); return this._next; }
             set { this.ThrowIfInvalidated(); this._next = value; }
         }
 
+        /// <inheritdoc/>
         internal SinglyLinkedListNode(string value, object container): base(value, container) { }
 
+        /// <summary>
+        /// Cleans up refrences to next node in the list.
+        /// </summary>
         protected override void Invalidate()
         {
             this._next = null;
