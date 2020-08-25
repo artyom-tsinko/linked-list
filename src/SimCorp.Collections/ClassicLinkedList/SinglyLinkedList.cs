@@ -3,8 +3,30 @@
 namespace SimCorp.Collections.ClassicLinkedList
 {
 
+    /// <summary>
+    /// Represents uni-directional (forward-only) linked list.
+    /// </summary>
     public class SinglyLinkedList: LinkedList<ISinglyLinkedListNode>, ILinkedList<ILinkedListNode>
     {
+
+        ILinkedListNode ILinkedList<ILinkedListNode>.Add(string value)
+        {
+            return this.Add(value);
+        }
+
+        ILinkedListNode? ILinkedList<ILinkedListNode>.Find(string value)
+        {
+            return this.Find(value);
+        }
+
+        public void Remove(ILinkedListNode node)
+        {
+            var castedNode = node as ISinglyLinkedListNode;
+            if (castedNode is null) { throw new InvalidOperationException("Node does not belong to this list"); }
+
+            base.Remove(castedNode);
+        }
+
 
         protected override ISinglyLinkedListNode CreateNode(string value)
         {
@@ -36,25 +58,6 @@ namespace SimCorp.Collections.ClassicLinkedList
         protected override void LinkNodes(ISinglyLinkedListNode? prev, ISinglyLinkedListNode? next)
         {
             if (prev != null) { prev.Next = next; }
-        }
-
-        
-        ILinkedListNode ILinkedList<ILinkedListNode>.Add(string value)
-        {
-            return this.Add(value);
-        }
-
-        ILinkedListNode? ILinkedList<ILinkedListNode>.Find(string value)
-        {
-            return this.Find(value);
-        }
-
-        public void Remove(ILinkedListNode node)
-        {
-            var castedNode = node as ISinglyLinkedListNode;
-            if (castedNode is null) { throw new InvalidOperationException("Node does not belong to this list"); }
-
-            base.Remove(castedNode);
         }
 
     }

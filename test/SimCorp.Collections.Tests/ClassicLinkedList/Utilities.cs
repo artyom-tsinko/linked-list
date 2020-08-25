@@ -8,10 +8,10 @@ using SimCorp.Collections.ClassicLinkedList;
 namespace SimCorp.Collections.Tests.ClassicLinkedList
 {
 
-    public static partial class ILinkedListTests
+    public static class Utilities
     {
 
-        private static IEnumerable<TestCaseData> LinkedListImplemetations(string methodName)
+        public static IEnumerable<TestCaseData> LinkedListImplemetations(string methodName)
         {
             yield return new TestCaseData(new SinglyLinkedList(), false).SetName($"{methodName} : SinglyLinkedList");
             yield return new TestCaseData(new DoublyLinkedList(), false).SetName($"{methodName} : DoublyLinkedList");
@@ -19,7 +19,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
             yield return new TestCaseData(new DoublyLinkedList(), true).SetName($"{methodName} : DoublyLinkedList as ILinkedList");
         }
 
-        private static IEnumerable<TestCaseData> LinkedListImplemetationsWithAnotherList(string methodName)
+        public static IEnumerable<TestCaseData> LinkedListImplemetationsWithAnotherList(string methodName)
         {
             yield return new TestCaseData(new SinglyLinkedList(), new SinglyLinkedList(), false).SetName($"{methodName} : SinglyLinkedList");
             yield return new TestCaseData(new DoublyLinkedList(), new DoublyLinkedList(), false).SetName($"{methodName} : DoublyLinkedList");
@@ -28,7 +28,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        private static void ApplyTestCase(
+        public static void ApplyTestCase(
             this object list,
             bool testGenericInterface,
             Action<SinglyLinkedList> forSingly,
@@ -58,8 +58,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
 
         }
 
-
-        private static void ApplyTestCase(
+        public static void ApplyTestCase(
             this object list,
             object anotherList,
             bool testGenericInterface,

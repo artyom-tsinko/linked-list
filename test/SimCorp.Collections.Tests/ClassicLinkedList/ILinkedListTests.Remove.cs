@@ -12,7 +12,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
     {
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Remove_NodeFromNonEmptyList_ShouldRemoveNodeFromList) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Remove_NodeFromNonEmptyList_ShouldRemoveNodeFromList) })]
         public static void Remove_NodeFromNonEmptyList_ShouldRemoveNodeFromList(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -42,7 +42,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Remove_HeadNode_ShouldSetNextAsHead) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Remove_HeadNode_ShouldSetNextAsHead) })]
         public static void Remove_HeadNode_ShouldSetNextAsHead(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -72,7 +72,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Remove_TailNode_ShouldSetPreviousAsTail) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Remove_TailNode_ShouldSetPreviousAsTail) })]
         public static void Remove_TailNode_ShouldSetPreviousAsTail(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -102,7 +102,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Remove_OnlyNode_ListShouldBecomeEmpty) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Remove_OnlyNode_ListShouldBecomeEmpty) })]
         public static void Remove_OnlyNode_ListShouldBecomeEmpty(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -129,7 +129,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Remove_NodeRemovedTwice_ShouldThrow) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Remove_NodeRemovedTwice_ShouldThrow) })]
         public static void Remove_NodeRemovedTwice_ShouldThrow(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -159,7 +159,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetationsWithAnotherList), new object[] { nameof(Remove_NodeFromAnotherList_ShouldThrow) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetationsWithAnotherList), new object[] { nameof(Remove_NodeFromAnotherList_ShouldThrow) })]
         public static void Remove_NodeFromAnotherList_ShouldThrow(object list, object anotherList, bool testGenericInterface = false)
         {
             list.ApplyTestCase(

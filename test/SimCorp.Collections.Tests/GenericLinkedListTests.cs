@@ -1,69 +1,82 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
+
 using SimCorp.Collections.GenericLinkedList;
-using System;
-using System.Collections.Generic;
 
 namespace SimCorp.Collections.Tests
 {
-
-
-    public class ObjWithEnum 
-    {
-        public IEnumerable<int> GetValues() 
-        {
-            yield return 1;
-            yield return 2;
-            yield return 3;
-        }
-    }
 
     public static class GenericLinkedListTests
     {
 
         [Test]
-        public static void SampleTest() 
+        public static void DoublyLinkedListSample() 
         {
-            Assert.Pass("Have fun with your lists!");
+
+            var list = new GenericLinkedList.LinkedList<DoublyLinkedListNode>();
+            var nodeA = list.Add("a");
+            var nodeB = list.Add("b");
+            var nodeC = list.Add("c");
+
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, list.ToArray());
+
+            // navigate from head to tail
+            var navValues = new List<string>();
+
+            navValues.Add(nodeA.Value);
+            navValues.Add(nodeA.Next.Value);
+            navValues.Add(nodeA.Next.Next.Value);
+
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, navValues.ToArray());
+
+            // navigate from tail to head
+            navValues.Clear();
+            navValues.Add(nodeC.Value);
+            navValues.Add(nodeC.Previous.Value);
+            navValues.Add(nodeC.Previous.Previous.Value);
+
+            CollectionAssert.AreEqual(new[] { "c", "b", "a" }, navValues.ToArray());
+
+            // clear list
+
+            list.Remove(nodeB);
+            CollectionAssert.AreEqual(new[] { "a", "c" }, list.ToArray());
+            list.Remove(nodeA);
+            CollectionAssert.AreEqual(new[] { "c" }, list.ToArray());
+            list.Remove(nodeC);
+            CollectionAssert.AreEqual(new string[] { }, list.ToArray());
+
         }
 
         [Test]
-        public static void NullableEnumTest()
-        {
-            var t = default(ObjWithEnum)?.GetValues();
-            Assert.IsNotNull(t);
-        }
-
-        [Test]
-        public static void EmptyArrayTest()
-        {
-            var emptyArr = Array.Empty<string>();
-            emptyArr[0] = "abc";
-            emptyArr[1] = "def";
-
-            Assert.Pass();
-        }
-
-        [Test]
-        public static void StringEqualsTest()
-        {
-            Console.WriteLine(string.Equals(null, null, StringComparison.Ordinal));
-            Console.WriteLine(string.Equals(null, "", StringComparison.Ordinal));
-
-            Assert.Pass();
-        }
-
-
-        [Test]
-        public static void ListSampleTest() 
+        public static void SinglyLinkedListSample()
         {
 
-            ILinkedList<DoublyLinkedListNode> t = new GenericLinkedList.LinkedList<DoublyLinkedListNode>();
-            ILinkedList<SinglyLinkedListNode> t2 = new GenericLinkedList.LinkedList<SinglyLinkedListNode>();
-            // new LinkedList<DoublyLinkedListNode>()
+            var list = new GenericLinkedList.LinkedList<SinglyLinkedListNode>();
+            var nodeA = list.Add("a");
+            var nodeB = list.Add("b");
+            var nodeC = list.Add("c");
 
-            // ILinkedListNode t2 = new DoublyLinkedListNode();
-            // IDoublyLinkedListNode t3 = new DoublyLinkedListNode();
-            // ILinkedList<ILinkedListNode> t2 = new LinkedList<DoublyLinkedListNode>();
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, list.ToArray());
+
+            // navigate from head to tail
+            var navValues = new List<string>();
+
+            navValues.Add(nodeA.Value);
+            navValues.Add(nodeA.Next.Value);
+            navValues.Add(nodeA.Next.Next.Value);
+
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, navValues.ToArray());
+
+            // clear list
+
+            list.Remove(nodeB);
+            CollectionAssert.AreEqual(new[] { "a", "c" }, list.ToArray());
+            list.Remove(nodeA);
+            CollectionAssert.AreEqual(new[] { "c" }, list.ToArray());
+            list.Remove(nodeC);
+            CollectionAssert.AreEqual(new string[] { }, list.ToArray());
 
         }
 

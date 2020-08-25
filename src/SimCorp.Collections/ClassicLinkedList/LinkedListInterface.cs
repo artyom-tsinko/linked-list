@@ -10,19 +10,16 @@
         TNode? Find(string value);
     }
 
-
     public interface IDoublyLinkedListNode : ILinkedListNode
     {
         IDoublyLinkedListNode? Previous { get; internal set; }
         IDoublyLinkedListNode? Next { get; internal set; }
     }
 
-
     public interface ISinglyLinkedListNode : ILinkedListNode
     {
         ISinglyLinkedListNode? Next { get; internal set; }
     }
-
 
     public interface ILinkedListNode 
     {

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace SimCorp.Collections.ClassicLinkedList
 {
 
-
     public abstract class LinkedList<TNode> : ILinkedList<TNode>
         where TNode : class, ILinkedListNode
     {
@@ -34,7 +33,6 @@ namespace SimCorp.Collections.ClassicLinkedList
 
             return node;
         }
-
 
         /// <summary>
         /// The cost depends on <see cref="GetPrevious"/> implementation, varies from O(1) to O(N)
@@ -73,7 +71,6 @@ namespace SimCorp.Collections.ClassicLinkedList
             return this.Find(node => string.Equals(value, node.Value, StringComparison.Ordinal));
         }
 
-
         public string[] ToArray()
         {
             var items = new List<string>();
@@ -86,12 +83,10 @@ namespace SimCorp.Collections.ClassicLinkedList
             return items.ToArray();
         }
 
-
         protected abstract TNode CreateNode(string value);
         protected abstract void LinkNodes(TNode? prev, TNode? next);
         protected abstract TNode? GetNext(TNode current);
         protected abstract TNode? GetPrevious(TNode current);
-
 
         protected TNode? Find(Func<TNode, bool> predicate) 
         {
@@ -107,7 +102,6 @@ namespace SimCorp.Collections.ClassicLinkedList
 
             return default;
         }
-        
 
         private IEnumerable<T> Select<T>(Func<TNode, T> selector)
         {

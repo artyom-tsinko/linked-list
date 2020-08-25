@@ -4,62 +4,105 @@ using System.Collections.Generic;
 namespace SimCorp.Collections.GenericLinkedList
 {
 
-
-    public class LinkedList<TNode> : ILinkedList<TNode>
+    /// <summary>
+    /// Generic linked list data structure implementation. 
+    /// Uses bi-directional-linked linked list on the background
+    /// allowing O(1) operation costs 
+    /// for <see cref="Add(string)"/> and <see cref="Remove(TNode)"/> operations.
+    /// </summary>
+    /// <typeparam name="TNode">
+    /// The type of the list node. Depending on definition,
+    /// can represent either uni- or bi-directional linked list.
+    /// </typeparam>
+    /// <remarks>
+    /// Usage samples:
+    /// 
+    /// Following creates bi-directional linked list:
+    /// var list = new GenericLinkedList.LinkedList<DoublyLinkedListNode>();
+    /// 
+    /// Following creates uni-directional (forward only) linked list:
+    /// var list = new GenericLinkedList.LinkedList<SinglyLinkedListNode>();
+    /// </remarks>
+    public sealed class LinkedList<TNode>
         where TNode : LinkedListNode<TNode>, new()
     {
 
-        internal TNode? Root { get; private set; } = default;
+        private TNode? _head;
+        private TNode? _tail;
 
-
+        /// <summary>
+        /// Adds node with specified <paramref name="value"/> to the end of the list.
+        /// Acts as the factory for <typeparamref name="TNode"/>.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1).
+        /// </remarks>
         public TNode Add(string value)
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
+
             var node = new TNode();
-            
-            // the list was empty, adding new root
-            if (this.Root is null)
+
+            // state init, hacky :-(
+            node.Initialize(this, value);
+
+            if (this._head is null && this._tail is null)
             {
-                LinkedListNode<TNode>.AttachRoot(this, node, value);
-                this.Root = node;
+                this._head = node;
+                this._tail = node;
             }
             else
             {
-                // attach node to the end of the list
-                LinkedListNode<TNode>.AttachNode(this.Root.PreviousInternal, node, value);
+                if (this._tail is null) { throw new InvalidOperationException(); }
+
+                LinkedList<TNode>.LinkNodes(this._tail, node);
+                this._tail = node;
             }
 
             return node;
         }
 
-
-        public void Remove(TNode node)
+        /// <summary>
+        /// Removes <paramref name="target"/> node from list.
+        /// Throws <see cref="InvalidOperationException"/> if node does not belong to this list.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(1).
+        /// </remarks>
+        public void Remove(TNode target)
         {
-            // TODO - removed node is not in the list
+            if (target is null) { throw new ArgumentNullException(nameof(target)); }
+            if (!target.BelongsTo(this)) { throw new InvalidOperationException("Node does not belong to this list"); }
 
-            var next = node.NextInternal;
+            var prev = target.PreviousInternal;
+            var next = target.NextInternal;
 
-            // update root node, if necessary
-            // if removed node is a root node - next node should become a new root
-            if (object.ReferenceEquals(node, this.Root)) 
+            LinkedList<TNode>.LinkNodes(prev, next);
+
+            // target was current head
+            if (prev is null)
             {
-                // If next node is still a root - there was a single root element...
-                this.Root = !object.ReferenceEquals(this.Root, next)
-                    ? next
-                    // ... and new root should be null.
-                    : default;
+                this._head = next;
             }
 
-            // cleanup node refrences and remove node from list
-            LinkedListNode<TNode>.RemoveNode(this, node);
+            // target was current tail
+            if (next is null)
+            {
+                this._tail = prev;
+            }
+
+            target.Invalidate();
         }
 
-
+        /// <summary>
+        /// Traverses give list from head to tail and 
+        /// returns its node values as array.
+        /// </summary>
         public string[] ToArray()
         {
-            // TODO - enhance performance
             var items = new List<string>();
 
-            foreach (var nodeValue in LinkedList<TNode>.Select(this.Root, n => n.Value))
+            foreach (var nodeValue in LinkedList<TNode>.Select(this._head, n => n.Value))
             {
                 items.Add(nodeValue);
             }
@@ -67,10 +110,20 @@ namespace SimCorp.Collections.GenericLinkedList
             return items.ToArray();
         }
 
-
+        /// <summary>
+        /// Looks for a <see cref="TNode"/> in the list which value equals <paramref name="search"/>.
+        /// </summary>
+        /// <remarks>
+        /// Operation cost is O(N).
+        /// </remarks>
+        /// <returns>
+        /// <see cref="TNode"/> if found, null otherwise.
+        /// </returns>
         public TNode? Find(string search)
         {
-            foreach (var node in LinkedList<TNode>.Select(this.Root, n => n))
+            if (search is null) { throw new ArgumentNullException(nameof(search)); }
+
+            foreach (var node in LinkedList<TNode>.Select(this._head, n => n))
             {
                 if (string.Equals(search, node.Value, StringComparison.Ordinal)) { return node; }
             }
@@ -78,18 +131,28 @@ namespace SimCorp.Collections.GenericLinkedList
             return null;
         }
 
-
-        private static IEnumerable<T> Select<T>(TNode? root, Func<TNode, T> selector)
+        /// <summary>
+        /// Iterator, traverses each items in the list starting from <see cref="_head"/>.
+        /// </summary>
+        private static IEnumerable<T> Select<T>(TNode? head, Func<TNode, T> selector)
         {
-            if (root is null) { yield break; };
+            TNode? node = head;
 
-            var node = root;
-            do
+            while (node != null)
             {
                 yield return selector(node);
                 node = node.NextInternal;
             }
-            while (!object.ReferenceEquals(node, root));
+        }
+
+        /// <summary>
+        /// Links <paramref name="prev"/> and <paramref name="next"/> nodes.
+        /// If any of nodes is null, corresponded property is set to null.
+        /// </summary>
+        private static void LinkNodes(TNode? prev, TNode? next)
+        {
+            if (prev != null) { prev.NextInternal = next; }
+            if (next != null) { next.PreviousInternal = prev; }
         }
 
     }

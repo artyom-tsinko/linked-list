@@ -8,7 +8,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
     public static partial class ILinkedListTests
     {
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Find_EmptyList_ShouldReturnNull) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Find_EmptyList_ShouldReturnNull) })]
         public static void Find_EmptyList_ShouldReturnNull(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -31,7 +31,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Find_FilledList_NoMatchingValue_ShouldReturnNull) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Find_FilledList_NoMatchingValue_ShouldReturnNull) })]
         public static void Find_FilledList_NoMatchingValue_ShouldReturnNull(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -58,7 +58,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Find_FilledList_ContainsMatchingValue_ShouldReturnNode) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Find_FilledList_ContainsMatchingValue_ShouldReturnNode) })]
         public static void Find_FilledList_ContainsMatchingValue_ShouldReturnNode(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -85,7 +85,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Find_FilledList_ContainsMultipleMatchingValues_ShouldReturnFirstMatchingNode) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Find_FilledList_ContainsMultipleMatchingValues_ShouldReturnFirstMatchingNode) })]
         public static void Find_FilledList_ContainsMultipleMatchingValues_ShouldReturnFirstMatchingNode(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(

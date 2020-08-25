@@ -4,10 +4,10 @@
     internal sealed class DoublyLinkedListNode : LinkedListNode, IDoublyLinkedListNode
     {
 
-        internal DoublyLinkedListNode(string value, object container) : base(value, container) { }
-
         private IDoublyLinkedListNode? _prev;
         private IDoublyLinkedListNode? _next;
+
+        internal DoublyLinkedListNode(string value, object container) : base(value, container) { }
 
         IDoublyLinkedListNode? IDoublyLinkedListNode.Previous 
         {

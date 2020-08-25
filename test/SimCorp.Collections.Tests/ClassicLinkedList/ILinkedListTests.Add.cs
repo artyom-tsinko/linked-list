@@ -12,7 +12,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
     public static partial class ILinkedListTests
     {
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Add_NullString_ShouldThrow) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Add_NullString_ShouldThrow) })]
         public static void Add_NullString_ShouldThrow(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -27,13 +27,15 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
             where TNode : class, ILinkedListNode
         {
             Assert.NotNull(list);
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             var e = Assert.Throws<ArgumentNullException>(() => list.Add(default));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             Assert.IsTrue(e.Message.StartsWith("Value cannot be null."));
             Assert.IsTrue(e.Message.Contains("value"));
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Add_NotNullString_ShouldReturnNodeWithValue) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Add_NotNullString_ShouldReturnNodeWithValue) })]
         public static void Add_NotNullString_ShouldReturnNodeWithValue(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -60,7 +62,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue) })]
         public static void Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(
@@ -95,7 +97,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         }
 
 
-        [TestCaseSource(nameof(LinkedListImplemetations), new object[] { nameof(Add_MultipleValues_ShouldAppendNewValues) })]
+        [TestCaseSource(typeof(Utilities), nameof(Utilities.LinkedListImplemetations), new object[] { nameof(Add_MultipleValues_ShouldAppendNewValues) })]
         public static void Add_MultipleValues_ShouldAppendNewValues(object list, bool testGenericInterface = false)
         {
             list.ApplyTestCase(

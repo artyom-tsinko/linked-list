@@ -6,6 +6,24 @@ namespace SimCorp.Collections.ClassicLinkedList
     public sealed class DoublyLinkedList : LinkedList<IDoublyLinkedListNode>, ILinkedList<ILinkedListNode>
     {
 
+        ILinkedListNode ILinkedList<ILinkedListNode>.Add(string value)
+        {
+            return this.Add(value);
+        }
+
+        ILinkedListNode? ILinkedList<ILinkedListNode>.Find(string value)
+        {
+            return this.Find(value);
+        }
+
+        public void Remove(ILinkedListNode node)
+        {
+            var castedNode = node as IDoublyLinkedListNode;
+            if (castedNode is null) { throw new InvalidOperationException("Node does not belong to this list"); }
+
+            base.Remove(castedNode);
+        }
+
         protected override IDoublyLinkedListNode CreateNode(string value)
         {
             if (value is null) { throw new ArgumentNullException(nameof(value)); }
@@ -39,26 +57,6 @@ namespace SimCorp.Collections.ClassicLinkedList
             if (next != null) { next.Previous = prev; }
         }
 
-
-        
-        ILinkedListNode ILinkedList<ILinkedListNode>.Add(string value)
-        {
-            return this.Add(value);
-        }
-
-        ILinkedListNode? ILinkedList<ILinkedListNode>.Find(string value)
-        {
-            return this.Find(value);
-        }
-
-        public void Remove(ILinkedListNode node)
-        {
-            var castedNode = node as IDoublyLinkedListNode;
-            if (castedNode is null) { throw new InvalidOperationException("Node does not belong to this list"); }
-
-            base.Remove(castedNode);
-        }
-        
     }
 
 }
