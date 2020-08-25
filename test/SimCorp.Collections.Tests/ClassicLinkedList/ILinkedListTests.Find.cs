@@ -15,9 +15,9 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         {
             list.ApplyTestCase(
                 testGenericInterface,
-                l => Add_NullString_ShouldThrow_Test<ISinglyLinkedListNode>(l),
-                l => Add_NullString_ShouldThrow_Test<IDoublyLinkedListNode>(l),
-                l => Add_NullString_ShouldThrow_Test<ILinkedListNode>(l));
+                l => Find_Condition_ShouldResult_Test<ISinglyLinkedListNode>(l),
+                l => Find_Condition_ShouldResult_Test<IDoublyLinkedListNode>(l),
+                l => Find_Condition_ShouldResult_Test<ILinkedListNode>(l));
 
         }
 

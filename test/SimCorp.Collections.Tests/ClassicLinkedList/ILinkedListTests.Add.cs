@@ -65,9 +65,9 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         {
             list.ApplyTestCase(
                 testGenericInterface,
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<ISinglyLinkedListNode>(l),
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<IDoublyLinkedListNode>(l),
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<ILinkedListNode>(l));
+                l => Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue_Test<ISinglyLinkedListNode>(l),
+                l => Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue_Test<IDoublyLinkedListNode>(l),
+                l => Add_DuplicateValues_ShouldReturnDifferentNodesWithSameValue_Test<ILinkedListNode>(l));
 
         }
 
@@ -86,7 +86,7 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
             // no nodes are null
             Assert.IsTrue(!nodes.Any(node => node is null));
             // all nodes are unique instances
-            Assert.AreEqual(nodes.Count, nodes.Distinct(EqualityComparer<TNode>.Default));
+            Assert.AreEqual(nodes.Count, nodes.Distinct(EqualityComparer<TNode>.Default).Count());
             // all nodes has the same value
             Assert.AreEqual(nodeValue, nodes.Select(node => node.Value).Distinct().SingleOrDefault());
 
@@ -100,9 +100,9 @@ namespace SimCorp.Collections.Tests.ClassicLinkedList
         {
             list.ApplyTestCase(
                 testGenericInterface,
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<ISinglyLinkedListNode>(l),
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<IDoublyLinkedListNode>(l),
-                l => Add_NotNullString_ShouldReturnNodeWithValue_Test<ILinkedListNode>(l));
+                l => Add_MultipleValues_ShouldAppendNewValues_Test<ISinglyLinkedListNode>(l),
+                l => Add_MultipleValues_ShouldAppendNewValues_Test<IDoublyLinkedListNode>(l),
+                l => Add_MultipleValues_ShouldAppendNewValues_Test<ILinkedListNode>(l));
 
         }
 

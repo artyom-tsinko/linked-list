@@ -42,7 +42,7 @@ namespace SimCorp.Collections.ClassicLinkedList
         public void Remove(TNode target)
         {
             if (target is null) { throw new ArgumentNullException(nameof(target)); }
-            if (!target.BelongsTo(this)) { throw new InvalidOperationException("Node does not belong to this object"); }
+            if (!target.BelongsTo(this)) { throw new InvalidOperationException("Node does not belong to this list"); }
 
             var prev = this.GetPrevious(target);
             var next = this.GetNext(target);
