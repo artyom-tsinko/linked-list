@@ -1,21 +1,25 @@
 ﻿using System;
 
-namespace SimCorp.Collections
+namespace SimCorp.Collections.GenericLinkedList
 {
 
-    public abstract class LinkedListNode<TNode> : IListNode
+    public abstract class LinkedListNode<TNode>
         where TNode : LinkedListNode<TNode>, new()
     {
 
         private LinkedList<TNode>? _container = default;
         private TNode? _prev = default;
         private TNode? _next = default;
+        private string? _value = default;
 
-
-        public string? Value { get; private set; }
+        public string Value
+        { 
+            get => this._value is null ? throw new InvalidOperationException() : this._value;
+        }
 
 
         // Prevents uncontrolled creation of other node types
+        // TODO - make internal
         internal LinkedListNode() { }
 
 
@@ -31,31 +35,31 @@ namespace SimCorp.Collections
         }
 
 
-        internal static void AttachRoot(LinkedList<TNode> container, TNode root, string? value)
+        internal static void AttachRoot(LinkedList<TNode> container, TNode root, string value)
         {
             if (container is null) { throw new ArgumentNullException(); }
 
             root._next = root;
             root._prev = root;
             root._container = container;
-            root.Value = value;
+            root._value = value;
         }
 
 
-        internal static void AttachNode(TNode left, TNode target, string? value)
+        internal static void AttachNode(TNode prev, TNode target, string value)
         {
-            if (left._container is null) { throw new InvalidOperationException(); }
+            if (prev._container is null) { throw new InvalidOperationException(); }
 
-            var right = left.NextInternal;
+            var next = prev.NextInternal;
 
-            left._next = target;
-            right._prev = target;
+            prev._next = target;
+            next._prev = target;
 
-            target._next = right;
-            target._prev = left;
-            target._container = left._container;
+            target._next = next;
+            target._prev = prev;
+            target._container = prev._container;
 
-            target.Value = value;
+            target._value = value;
         }
 
 
@@ -64,15 +68,16 @@ namespace SimCorp.Collections
             if (!object.ReferenceEquals(container, target._container)) { throw new InvalidOperationException(); }
             if (target._container is null) { throw new InvalidOperationException(); }
 
-            var left = target.PreviousInternal;
-            var right = target.NextInternal;
+            var prev = target.PreviousInternal;
+            var next = target.NextInternal;
 
-            left._next = right;
-            right._prev = left;
+            prev._next = next;
+            next._prev = prev;
 
             target._next = null;
             target._prev = null;
             target._container = null;
+            target._value = null;
         }
 
 
@@ -80,7 +85,7 @@ namespace SimCorp.Collections
         {
             if (this._container is null) { throw new InvalidOperationException(); }
 
-            return Object.ReferenceEquals(this._container.Root, this);
+            return object.ReferenceEquals(this._container.Root, this);
         }
 
     }

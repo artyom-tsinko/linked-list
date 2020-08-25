@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SimCorp.Collections
+namespace SimCorp.Collections.GenericLinkedList
 {
 
-    public sealed class LinkedList<TNode> : ILinkedList<TNode>
+
+    public class LinkedList<TNode> : ILinkedList<TNode>
         where TNode : LinkedListNode<TNode>, new()
     {
 
         internal TNode? Root { get; private set; } = default;
 
 
-        public TNode Add(string? value)
+        public TNode Add(string value)
         {
             var node = new TNode();
             
@@ -53,10 +54,10 @@ namespace SimCorp.Collections
         }
 
 
-        public string?[] ToArray()
+        public string[] ToArray()
         {
             // TODO - enhance performance
-            var items = new List<string?>();
+            var items = new List<string>();
 
             foreach (var nodeValue in LinkedList<TNode>.Select(this.Root, n => n.Value))
             {

@@ -1,4 +1,4 @@
-﻿namespace SimCorp.Collections
+﻿namespace SimCorp.Collections.GenericLinkedList
 {
 
     public sealed class SinglyLinkedListNode : LinkedListNode<SinglyLinkedListNode>

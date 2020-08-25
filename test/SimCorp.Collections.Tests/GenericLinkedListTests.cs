@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SimCorp.Collections.GenericLinkedList;
 using System;
 using System.Collections.Generic;
 
@@ -16,7 +17,7 @@ namespace SimCorp.Collections.Tests
         }
     }
 
-    public static class LinkedListTests
+    public static class GenericLinkedListTests
     {
 
         [Test]
@@ -49,6 +50,21 @@ namespace SimCorp.Collections.Tests
             Console.WriteLine(string.Equals(null, "", StringComparison.Ordinal));
 
             Assert.Pass();
+        }
+
+
+        [Test]
+        public static void ListSampleTest() 
+        {
+
+            ILinkedList<DoublyLinkedListNode> t = new GenericLinkedList.LinkedList<DoublyLinkedListNode>();
+            ILinkedList<SinglyLinkedListNode> t2 = new GenericLinkedList.LinkedList<SinglyLinkedListNode>();
+            // new LinkedList<DoublyLinkedListNode>()
+
+            // ILinkedListNode t2 = new DoublyLinkedListNode();
+            // IDoublyLinkedListNode t3 = new DoublyLinkedListNode();
+            // ILinkedList<ILinkedListNode> t2 = new LinkedList<DoublyLinkedListNode>();
+
         }
 
     }
